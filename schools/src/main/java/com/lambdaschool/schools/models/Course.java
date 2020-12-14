@@ -1,6 +1,8 @@
 package com.lambdaschool.schools.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -12,6 +14,8 @@ import java.util.Set;
 /**
  * The entity allowing interaction with the courses table
  */
+@ApiModel(value = "Course",
+description = "A record of all the courses")
 @Entity
 @Table(name = "courses")
 public class Course
@@ -20,6 +24,10 @@ public class Course
     /**
      * Primary key (long) for this course
      */
+    @ApiModelProperty(name = "course id",
+        value = "primary key for course",
+        required = true,
+        example = "1")
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long courseid;
@@ -27,6 +35,10 @@ public class Course
     /**
      * Name (String) of this Course. Cannot be null and must be unique
      */
+    @ApiModelProperty(name = "course name",
+        value = "Name of the course, must be between 2-50 chars and cannot be null",
+        required = true,
+        example = "Lambda X")
     @Column(nullable = true,
         unique = true)
     @NotNull(message = "Name cannot be null")
@@ -39,6 +51,10 @@ public class Course
      * Forms a Many to one relationship between course and instructor.
      * An instructor has many courses!
      */
+    @ApiModelProperty(name = "instructor id",
+        value = "id of instructor who teaches course",
+        required = true,
+        example = "1")
     @ManyToOne
     @JoinColumn(name = "instructorid",
         nullable = false)

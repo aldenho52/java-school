@@ -1,6 +1,7 @@
 package com.lambdaschool.schools.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import io.swagger.annotations.ApiModelProperty;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -26,6 +27,10 @@ public class Instructor
     /**
      * The Instructor's name (String)
      */
+    @ApiModelProperty(name = "Instructor name",
+        value = "Name of the instructor, must be between 2-50 chars and cannot be null",
+        required = true,
+        example = "Sally Fields")
     @Column(nullable = false)
     @NotNull(message = "Name cannot be null")
     @Size(min = 2, max = 50, message = "Name must be between 2 and 50 characters")
