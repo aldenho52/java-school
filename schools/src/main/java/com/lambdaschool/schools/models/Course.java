@@ -29,7 +29,7 @@ public class Course
      */
     @Column(nullable = true,
         unique = true)
-    @NotNull(message = "Name must contain characters")
+    @NotNull(message = "Name cannot be null")
     @Size(min = 2, max = 50, message = "Name must be between 2 and 50 characters")
     private String coursename;
 
