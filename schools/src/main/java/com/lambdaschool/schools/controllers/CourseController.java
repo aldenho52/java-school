@@ -2,6 +2,8 @@ package com.lambdaschool.schools.controllers;
 
 import com.lambdaschool.schools.models.Course;
 import com.lambdaschool.schools.services.CoursesService;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -34,6 +36,9 @@ public class CourseController
      * @return JSON list of all courses with a status of OK
      * @see CoursesService#findAll() CoursesService.findAll()
      */
+    @ApiOperation(value = "returns all courses",
+        response = Course.class,
+        responseContainer = "List")
     @GetMapping(value = "/courses",
         produces = {"application/json"})
     public ResponseEntity<?> listAllCourses()
@@ -51,9 +56,15 @@ public class CourseController
      * @return JSON object of the course you seek
      * @see CoursesService#findCourseById(long) CoursesService.findCourseById(long)
      */
+
+    @ApiOperation(value = "returns a course based on id",
+        response = Course.class)
     @GetMapping(value = "/course/{courseId}",
         produces = {"application/json"})
     public ResponseEntity<?> getCourseById(
+        @ApiParam(value = "Course id",
+            required = true,
+            example = "3")
         @PathVariable
             Long courseId)
     {
@@ -73,9 +84,14 @@ public class CourseController
      * @throws URISyntaxException Exception if something does not work in creating the location header
      * @see CoursesService#save(Course) CoursesService.save(Course)
      */
+
+    @ApiOperation(value = "add a course",
+    response = Void.class)
     @PostMapping(value = "/course",
         consumes = {"application/json"})
     public ResponseEntity<?> addCourse(
+        @ApiParam(value = "a full course object",
+        required = true)
         @Valid
         @RequestBody
             Course newcourse) throws
@@ -108,12 +124,19 @@ public class CourseController
      * @return status of OK
      * @see CoursesService#save(Course) CoursesService.save(Course)
      */
+    @ApiOperation(value = "Edit/Update a course object by id",
+    response = Void.class)
     @PutMapping(value = "/course/{courseid}",
         consumes = {"application/json"})
     public ResponseEntity<?> updateFullCourse(
+        @ApiParam(value = "A full course object",
+        required = true)
         @Valid
         @RequestBody
             Course updateCourse,
+        @ApiParam(value = "courseid",
+        required = true,
+        example = "3")
         @PathVariable
             long courseid)
     {
