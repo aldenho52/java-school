@@ -4,6 +4,7 @@ public class Slip
 {
     private int id;
     private String advice;
+    private String date;
 
     public int getId()
     {
@@ -23,5 +24,15 @@ public class Slip
     public void setAdvice(String advice)
     {
         this.advice = advice;
+    }
+
+    public String getDate()
+    {
+        return date;
+    }
+
+    public void setDate(String date)
+    {
+        this.date = date;
     }
 }

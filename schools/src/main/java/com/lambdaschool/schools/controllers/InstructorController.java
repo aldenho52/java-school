@@ -2,6 +2,7 @@ package com.lambdaschool.schools.controllers;
 
 
 import com.lambdaschool.schools.models.AdviceSlip;
+import com.lambdaschool.schools.models.AdviceSlipWithQuery;
 import com.lambdaschool.schools.models.Instructor;
 import com.lambdaschool.schools.models.Slip;
 import com.lambdaschool.schools.repositories.InstructorRepository;
@@ -52,6 +53,32 @@ public class InstructorController
         ResponseEntity<AdviceSlip> responseEntity = restTemplate.exchange(requestURL, HttpMethod.GET, null, responseType);
 
         Slip slip = responseEntity.getBody().getSlip();
+        Instructor instructor = instructorServices.findInstructorById(instructorid);
+        instructor.setAdvice(slip.getAdvice());
+
+        return new ResponseEntity<>(instructor, HttpStatus.OK);
+
+    }
+
+
+    // /instructors/instructor/{instructorid}/advice/{search term}
+    @GetMapping(value = "/instructor/{instructorid}/advice/{searchterm}", produces = "application/json")
+    public ResponseEntity<?> getInstructorWithAdviceBySearchTerm(@PathVariable long instructorid, @PathVariable String searchterm)
+    {
+        MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter();
+        converter.setSupportedMediaTypes(Collections.singletonList(MediaType.ALL));
+        restTemplate.getMessageConverters().add(converter);
+
+        String requestURL = "https://api.adviceslip.com/advice/search/" + searchterm;
+
+        ParameterizedTypeReference<AdviceSlipWithQuery> responseType = new ParameterizedTypeReference<>()
+        {
+        };
+
+        ResponseEntity<AdviceSlipWithQuery> responseEntity = restTemplate.exchange(requestURL, HttpMethod.GET, null, responseType);
+
+        Slip slip = responseEntity.getBody().getSlips()
+            .get(0);
         Instructor instructor = instructorServices.findInstructorById(instructorid);
         instructor.setAdvice(slip.getAdvice());
 

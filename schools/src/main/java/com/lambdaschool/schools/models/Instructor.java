@@ -1,6 +1,7 @@
 package com.lambdaschool.schools.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.annotations.ApiModelProperty;
 
 import javax.persistence.*;
@@ -37,6 +38,7 @@ public class Instructor
     private String name;
 
     // random generated advice from another API
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     @Transient
     private String advice;
 
